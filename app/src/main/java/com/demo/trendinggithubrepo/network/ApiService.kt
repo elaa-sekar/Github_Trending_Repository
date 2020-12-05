@@ -11,8 +11,7 @@ interface ApiService {
 
         operator fun invoke(networkConnectionInterceptor: NetworkConnectionInterceptor): ApiService {
 
-            val baseUrl = "https://srisumathistores.com/public/api/"
-//            val baseUrl = "http://ssapp.findwomensociety.org/public/api/"
+            val baseUrl = "https://ghapi.huchen.dev/"
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
