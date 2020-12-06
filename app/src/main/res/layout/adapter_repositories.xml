@@ -4,6 +4,11 @@
 
     <data>
 
+        <import type="android.graphics.Color"/>
+
+        <variable
+            name="model"
+            type="com.demo.trendinggithubrepo.data.api_models.GitHubRepo" />
 
     </data>
 
@@ -13,6 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAuthorProfileIcon"
+            app:image="@{model.iconUrl}"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_12sdp"
@@ -29,6 +35,7 @@
             android:layout_marginEnd="@dimen/_12sdp"
             android:gravity="center_vertical"
             android:textSize="@dimen/_13ssp"
+            android:text="@{model.authorName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAuthorProfileIcon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +43,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRepositoryTitle"
             android:layout_width="0dp"
+            android:text="@{model.repoName}"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_12sdp"
@@ -48,6 +56,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRepositoryDescription"
             android:layout_width="0dp"
+            android:text="@{model.description}"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_12sdp"
@@ -59,6 +68,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivColorDot"
+            android:background="@{Color.parseColor(model.languageColor)}"
             android:layout_width="@dimen/_8sdp"
             android:layout_height="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_2sdp"
@@ -68,6 +78,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLanguage"
+            android:text="@{model.language}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
@@ -77,6 +88,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStarsCount"
+            android:text="@{model.stars}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
