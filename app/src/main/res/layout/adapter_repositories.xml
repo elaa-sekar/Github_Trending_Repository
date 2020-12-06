@@ -99,6 +99,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivStarIcon"
+            android:src="@drawable/icon_star_128"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_12sdp"

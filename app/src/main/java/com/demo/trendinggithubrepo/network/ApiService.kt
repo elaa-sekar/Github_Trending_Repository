@@ -11,7 +11,6 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-
     @GET("repositories")
     suspend fun getRepositoriesList(
         @Query("language") language: String,

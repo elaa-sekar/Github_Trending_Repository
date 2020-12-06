@@ -2,6 +2,7 @@ package com.demo.trendinggithubrepo.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,33 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
         binding.viewModel = viewModel
         viewModel.listener = this
         binding.rvRepositories.layoutManager = LinearLayoutManager(this@GitHubTrendingRepoActivity)
+        initSwipeToRefresh()
+        getGitHubTrendingRepositories("")
+    }
+
+    private fun getGitHubTrendingRepositories(searchQuery: String) {
+        viewModel.getTrendingRepoList(searchQuery)
+    }
+
+    private fun initSwipeToRefresh() {
+        binding.swipeRefresh.apply {
+            isRefreshing = true
+            this.setColorSchemeColors(
+                ContextCompat.getColor(
+                    this@GitHubTrendingRepoActivity,
+                    R.color.white
+                )
+            )
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    this@GitHubTrendingRepoActivity,
+                    R.color.blue
+                )
+            )
+            setOnRefreshListener {
+                getGitHubTrendingRepositories("")
+            }
+        }
     }
 
     override fun updateRepoAdapter(repoList: ArrayList<GitHubRepo>) {
@@ -39,6 +67,10 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
 
     override fun showMessage(message: String) {
         toast(message)
+    }
+
+    override fun stopLoader() {
+        binding.swipeRefresh.isRefreshing = false
     }
 
 
