@@ -13,6 +13,7 @@ import com.demo.trendinggithubrepo.utils.toast
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+import timber.log.Timber
 
 class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoListener {
 
@@ -59,9 +60,10 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
     }
 
     override fun updateRepoAdapter(repoList: ArrayList<GitHubRepo>) {
+        Timber.d("Repo Size ${repoList.size}")
         if (repoAdapter == null) {
             repoAdapter = GitHubRepoAdapter(repoList, this)
-            binding.rvRepositories.adapter
+            binding.rvRepositories.adapter = repoAdapter
         } else repoAdapter?.notifyUpdatedList(repoList)
     }
 

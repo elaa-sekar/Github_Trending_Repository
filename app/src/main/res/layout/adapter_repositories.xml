@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="android.graphics.Color"/>
+        <import type="android.graphics.Color" />
 
         <variable
             name="model"
@@ -18,10 +18,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAuthorProfileIcon"
-            app:image="@{model.iconUrl}"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_12sdp"
+            app:image="@{model.iconUrl}"
             app:layout_constraintBottom_toBottomOf="@id/tvAuthorProfileName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvAuthorProfileName" />
@@ -34,8 +34,8 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:gravity="center_vertical"
-            android:textSize="@dimen/_13ssp"
             android:text="@{model.authorName}"
+            android:textSize="@dimen/_13ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAuthorProfileIcon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,11 +43,11 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRepositoryTitle"
             android:layout_width="0dp"
-            android:text="@{model.repoName}"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:gravity="center_vertical"
+            android:text="@{model.repoName}"
             android:textSize="@dimen/_13ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/ivAuthorProfileIcon"
@@ -56,11 +56,11 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRepositoryDescription"
             android:layout_width="0dp"
-            android:text="@{model.description}"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:gravity="center_vertical"
+            android:text="@{model.description}"
             android:textSize="@dimen/_13ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/ivAuthorProfileIcon"
@@ -68,9 +68,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivColorDot"
-            android:background="@{Color.parseColor(model.languageColor)}"
-            android:layout_width="@dimen/_8sdp"
-            android:layout_height="@dimen/_8sdp"
+            android:layout_width="@dimen/_6sdp"
+            android:layout_height="@dimen/_6sdp"
             android:layout_marginStart="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="@id/tvLanguage"
             app:layout_constraintStart_toStartOf="@id/ivAuthorProfileIcon"
@@ -78,41 +77,42 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLanguage"
-            android:text="@{model.language}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:text="@{model.language}"
             app:layout_constraintStart_toEndOf="@id/ivColorDot"
             app:layout_constraintTop_toBottomOf="@id/tvRepositoryDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStarsCount"
-            android:text="@{model.stars}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_12sdp"
+            android:text="@{model.stars.toString()}"
             app:layout_constraintBottom_toBottomOf="@id/tvLanguage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvLanguage" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivStarIcon"
-            android:src="@drawable/icon_star_128"
-            android:layout_width="@dimen/_16sdp"
-            android:layout_height="@dimen/_16sdp"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/icon_star"
             app:layout_constraintBottom_toBottomOf="@id/tvStarsCount"
             app:layout_constraintEnd_toStartOf="@id/tvStarsCount"
             app:layout_constraintTop_toTopOf="@id/tvStarsCount" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.7dp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_4sdp"
+            android:background="@color/white_smoke"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStarsCount" />
 

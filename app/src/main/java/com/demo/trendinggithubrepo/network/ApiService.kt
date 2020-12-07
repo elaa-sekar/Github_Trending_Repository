@@ -22,7 +22,7 @@ interface ApiService {
 
         operator fun invoke(networkConnectionInterceptor: NetworkConnectionInterceptor): ApiService {
 
-            val baseUrl = "https://ghapi.huchen.dev/"
+            val baseUrl = "https://private-d11b4-githubtrendingapi.apiary-mock.com/"
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
