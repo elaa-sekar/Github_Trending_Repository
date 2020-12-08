@@ -1,6 +1,8 @@
 package com.demo.trendinggithubrepo.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -31,7 +33,28 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
         viewModel.listener = this
         binding.rvRepositories.layoutManager = LinearLayoutManager(this@GitHubTrendingRepoActivity)
         initSwipeToRefresh()
+        initSearchTextWatcher()
         getGitHubTrendingRepositories("")
+    }
+
+    private fun initSearchTextWatcher() {
+        val searchTextWatcher = object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val searchQuery = s.toString()
+                if(searchQuery.isNotEmpty()){
+                    getGitHubTrendingRepositories(searchQuery)
+                }
+            }
+        }
+        binding.etSearch.addTextChangedListener(searchTextWatcher)
     }
 
     private fun getGitHubTrendingRepositories(searchQuery: String) {
