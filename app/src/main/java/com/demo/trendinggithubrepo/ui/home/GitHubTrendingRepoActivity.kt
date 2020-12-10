@@ -34,7 +34,7 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
         binding.rvRepositories.layoutManager = LinearLayoutManager(this@GitHubTrendingRepoActivity)
         initSwipeToRefresh()
         initSearchTextWatcher()
-        getGitHubTrendingRepositories("")
+        getGitHubTrendingRepositories()
     }
 
     private fun initSearchTextWatcher() {
@@ -50,15 +50,15 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
             override fun afterTextChanged(s: Editable?) {
                 val searchQuery = s.toString()
                 if(searchQuery.isNotEmpty()){
-                    getGitHubTrendingRepositories(searchQuery)
+                    getGitHubTrendingRepositories()
                 }
             }
         }
         binding.etSearch.addTextChangedListener(searchTextWatcher)
     }
 
-    private fun getGitHubTrendingRepositories(searchQuery: String) {
-        viewModel.getTrendingRepoList(searchQuery)
+    private fun getGitHubTrendingRepositories() {
+        viewModel.getTrendingRepoList()
     }
 
     private fun initSwipeToRefresh() {
@@ -77,7 +77,7 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
                 )
             )
             setOnRefreshListener {
-                getGitHubTrendingRepositories("")
+                getGitHubTrendingRepositories()
             }
         }
     }

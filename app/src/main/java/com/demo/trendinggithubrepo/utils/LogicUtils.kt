@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.demo.trendinggithubrepo.data.api_models.GitHubRepo
+import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 
 fun isInternetAvailable(context: Context): Boolean {
 
@@ -31,4 +33,29 @@ fun isInternetAvailable(context: Context): Boolean {
         }
     }
     return result
+}
+
+//API Model into Database Model
+fun List<GitHubRepo>.toTrendingRepositories() : List<TrendingRepositories>{
+
+    val trendingRepositoriesList = ArrayList<TrendingRepositories>()
+    for(index in this.indices){
+        this[index].apply {
+            val trendingRepo = TrendingRepositories(
+                authorName = authorName,
+                repoName = repoName,
+                iconUrl = iconUrl,
+                repoUrl = repoUrl,
+                description = description,
+                language = language,
+                languageColor = languageColor,
+                stars = stars,
+                forks = forks,
+                currentPeriodStars = currentPeriodStars,
+                id = 0
+            )
+            trendingRepositoriesList.add(trendingRepo)
+        }
+    }
+    return trendingRepositoriesList
 }

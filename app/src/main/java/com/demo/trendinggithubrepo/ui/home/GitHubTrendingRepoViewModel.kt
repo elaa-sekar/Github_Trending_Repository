@@ -2,9 +2,11 @@ package com.demo.trendinggithubrepo.ui.home
 
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.demo.trendinggithubrepo.data.api_models.GitHubRepo
+import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 import com.demo.trendinggithubrepo.repositories.HomeRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,8 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     var searchFieldVisibility = ObservableField(View.GONE)
     var titleSearchIconVisibility = ObservableField(View.VISIBLE)
 
+    var repoLiveData: LiveData<List<TrendingRepositories>>? = null
+
     //Coroutine Error/Exception Handler
     private val coroutineExceptionHandler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { _, throwable ->
@@ -26,26 +30,26 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
         }
 
     //On click methods
-    fun onSearchIconClicked(view: View){
+    fun onSearchIconClicked(view: View) {
         searchFieldVisibility.set(View.VISIBLE)
         titleSearchIconVisibility.set(View.GONE)
     }
 
-    fun onBackArrowClicked(view: View){
+    fun onBackArrowClicked(view: View) {
         searchFieldVisibility.set(View.GONE)
         titleSearchIconVisibility.set(View.VISIBLE)
     }
 
-    fun onCloseIconClicked(view: View){
+    fun onCloseIconClicked(view: View) {
         searchFieldVisibility.set(View.GONE)
         titleSearchIconVisibility.set(View.VISIBLE)
     }
 
     // API/Network call
-    fun getTrendingRepoList(searchQuery: String) {
+    fun getTrendingRepoList() {
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            val repoList = repository.getRepositoriesList("", "", searchQuery)
+            val repoList = repository.getRepositoriesList()
             withContext(Dispatchers.Main) {
                 if (repoList.isNotEmpty()) {
                     listener?.updateRepoAdapter(repoList as ArrayList<GitHubRepo>)

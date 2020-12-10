@@ -58,10 +58,10 @@
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
+                        android:elevation="@dimen/_8sdp"
                         android:onClick="@{viewModel::onCloseIconClicked}"
                         android:src="@drawable/icon_close_black"
                         android:visibility="@{viewModel.searchFieldVisibility}"
-                        android:elevation="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
