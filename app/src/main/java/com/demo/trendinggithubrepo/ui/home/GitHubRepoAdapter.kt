@@ -14,11 +14,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.trendinggithubrepo.R
 import com.demo.trendinggithubrepo.data.api_models.GitHubRepo
+import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 import com.demo.trendinggithubrepo.databinding.AdapterRepositoriesBinding
 
 
 class GitHubRepoAdapter(
-    var gitHubRepoList: ArrayList<GitHubRepo>,
+    var gitHubRepoList: ArrayList<TrendingRepositories>,
     var context: Context
 ) : RecyclerView.Adapter<GitHubRepoAdapter.GitHubRepoViewHolder>() {
 
@@ -53,7 +54,7 @@ class GitHubRepoAdapter(
         return gitHubRepoList.size
     }
 
-    fun notifyUpdatedList(repoList: java.util.ArrayList<GitHubRepo>) {
+    fun notifyUpdatedList(repoList: ArrayList<TrendingRepositories>) {
         gitHubRepoList.clear()
         gitHubRepoList = repoList
         notifyDataSetChanged()
@@ -62,7 +63,7 @@ class GitHubRepoAdapter(
     inner class GitHubRepoViewHolder(var binding: AdapterRepositoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun setBinding(repoModel: GitHubRepo) {
+        fun setBinding(repoModel: TrendingRepositories) {
             binding.model = repoModel
         }
     }

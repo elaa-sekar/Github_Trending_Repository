@@ -1,4 +1,4 @@
-package com.demo.trendinggithubrepo.utils;
+package com.demo.trendinggithubrepo.utils
 
 import android.app.Activity
 import android.app.Application
@@ -97,7 +97,7 @@ class GitHubTrendingRepo : Application(), KodeinAware {
         bind() from singleton { NetworkConnectionInterceptor(instance()) }
         bind() from singleton { ApiService(instance()) }
 
-        bind() from singleton { HomeRepository(instance()) }
+        bind() from singleton { HomeRepository(instance(), instance()) }
         bind() from singleton { GitHubTrendingRepoViewModelFactory(instance()) }
     }
 }

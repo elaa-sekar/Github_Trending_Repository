@@ -9,10 +9,12 @@ interface RepoDao {
     @Query("SELECT * FROM trending_repositories")
     fun getAllRepos(): LiveData<List<TrendingRepositories>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(trendingRepositories: List<TrendingRepositories>): LiveData<List<TrendingRepositories>>
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAll(trendingRepositories: List<TrendingRepositories>)
 
-    @Query("SELECT * FROM trending_repositories WHERE author LIKE :searchKey OR name LIKE :searchKey OR description LIKE :searchKey OR language LIKE :searchKey")
+    @Query("SELECT * FROM trending_repositories WHERE author = :searchKey")
     fun findBySearchKey(searchKey: String): LiveData<List<TrendingRepositories>>
 
+    @Query("DELETE FROM trending_repositories")
+    fun deleteAll()
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.demo.trendinggithubrepo.data.api_models.GitHubRepo
 import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 import com.demo.trendinggithubrepo.repositories.HomeRepository
+import com.demo.trendinggithubrepo.utils.toTrendingRepositories
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,11 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     var searchFieldVisibility = ObservableField(View.GONE)
     var titleSearchIconVisibility = ObservableField(View.VISIBLE)
 
-    var repoLiveData: LiveData<List<TrendingRepositories>>? = null
+    lateinit var repoLiveData: LiveData<List<TrendingRepositories>>
+
+    init {
+        repoLiveData = repository.getAllRepos()
+    }
 
     //Coroutine Error/Exception Handler
     private val coroutineExceptionHandler: CoroutineExceptionHandler =
@@ -50,12 +55,26 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val repoList = repository.getRepositoriesList()
+            repository.deleteAllRepos()
+            repository.insertRepos(repoList.toTrendingRepositories())
+            repoLiveData = repository.getAllRepos()
             withContext(Dispatchers.Main) {
-                if (repoList.isNotEmpty()) {
-                    listener?.updateRepoAdapter(repoList as ArrayList<GitHubRepo>)
-                } else listener?.showMessage("No repositories found")
+                if (repoList.isEmpty()) {
+                    listener?.showMessage("No repositories found")
+                }
                 listener?.stopLoader()
             }
+        }
+    }
+
+    fun getRepos(): LiveData<List<TrendingRepositories>> {
+        return repoLiveData
+    }
+
+    fun searchRepos(searchKey: String) {
+        Timber.d("Search Key $searchKey")
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            repoLiveData = repository.getSearchedRepo(searchKey)
         }
     }
 }

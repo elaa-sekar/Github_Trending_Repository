@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.demo.trendinggithubrepo.data.api_models.GitHubRepo" />
+            type="com.demo.trendinggithubrepo.data.database.TrendingRepositories" />
 
     </data>
 
