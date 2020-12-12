@@ -2,9 +2,7 @@ package com.demo.trendinggithubrepo.ui.home
 
 import android.view.View
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 import com.demo.trendinggithubrepo.repositories.HomeRepository
 import com.demo.trendinggithubrepo.utils.toTrendingRepositories
@@ -22,8 +20,9 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     var noInternetVisibility = ObservableField(View.GONE)
     var loaderLayoutVisibility = ObservableField(View.GONE)
     var loaderVisibility = ObservableField(View.GONE)
+    var repoListVisibility = ObservableField(View.GONE)
 
-    var repoLiveData: LiveData<List<TrendingRepositories>>
+    private var repoLiveData: LiveData<List<TrendingRepositories>>
 
     init {
         repoLiveData = repository.getAllRepos()
@@ -35,19 +34,19 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
             Timber.d("Coroutine Exception : $throwable")
             viewModelScope.launch(Dispatchers.Main) {
                 listener?.stopLoader()
-                if(throwable.toString().contains("internet", true)){
+                if (throwable.toString().contains("internet", true)) {
                     showLoaderLayout()
                 }
             }
         }
 
-    //On click methods
+    // On click methods
     fun onSearchIconClicked(view: View) {
         searchFieldVisibility.set(View.VISIBLE)
         titleSearchIconVisibility.set(View.GONE)
     }
 
-    fun onTryAgainClicked(view: View){
+    fun onTryAgainClicked(view: View) {
         loaderVisibility.set(View.VISIBLE)
         loaderVisibility.set(View.VISIBLE)
         noInternetVisibility.set(View.GONE)
@@ -57,11 +56,13 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     fun onBackArrowClicked(view: View) {
         searchFieldVisibility.set(View.GONE)
         titleSearchIconVisibility.set(View.VISIBLE)
+        getTrendingRepoList()
     }
 
     fun onCloseIconClicked(view: View) {
         searchFieldVisibility.set(View.GONE)
         titleSearchIconVisibility.set(View.VISIBLE)
+        getTrendingRepoList()
     }
 
     // API/Network call
@@ -75,32 +76,46 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
             withContext(Dispatchers.Main) {
                 if (repoList.isEmpty()) {
                     listener?.showMessage("No repositories found")
-                }
+                } else showRepoListView()
                 listener?.stopLoader()
                 loaderVisibility.set(View.GONE)
             }
         }
     }
 
-    fun getRepos(): LiveData<List<TrendingRepositories>> {
+    fun getReposLiveData(): LiveData<List<TrendingRepositories>> {
         return repoLiveData
     }
 
     fun searchRepos(searchKey: String) {
         Timber.d("Search Key $searchKey")
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            repoLiveData = repository.getSearchedRepo(searchKey)
+            val repoList = repository.getSearchedRepo(searchKey)
+            withContext(Dispatchers.Main){
+                listener?.updateRepoAdapter(repoList)
+            }
+            Timber.d("Repo Live Data ${repoLiveData.value}")
         }
     }
 
-    fun showLoaderLayout() {
+    private fun showLoaderLayout() {
         loaderLayoutVisibility.set(View.VISIBLE)
         loaderVisibility.set(View.GONE)
         noInternetVisibility.set(View.VISIBLE)
     }
 
-    fun hideLoaderLayout(){
+    fun hideLoaderLayout() {
         loaderLayoutVisibility.set(View.GONE)
         noInternetVisibility.set(View.GONE)
+    }
+
+    fun hideRepoListView() {
+        repoListVisibility.set(View.GONE)
+        loaderLayoutVisibility.set(View.VISIBLE)
+    }
+
+    fun showRepoListView() {
+        repoListVisibility.set(View.VISIBLE)
+        loaderLayoutVisibility.set(View.GONE)
     }
 }

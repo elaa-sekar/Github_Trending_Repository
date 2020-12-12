@@ -10,7 +10,8 @@ class NetworkReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         context?.let {
             if (!isInternetAvailable(it)) {
-                (it as GitHubTrendingRepoActivity).viewModel.showLoaderLayout()
+                (it as GitHubTrendingRepoActivity).getGitHubTrendingRepositories()
+                it.viewModel.showRepoListView()
             } else (it as GitHubTrendingRepoActivity).viewModel.hideLoaderLayout()
         }
     }

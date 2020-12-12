@@ -10,7 +10,6 @@ import com.demo.trendinggithubrepo.network.ApiService
 import com.demo.trendinggithubrepo.network.NetworkConnectionInterceptor
 import com.demo.trendinggithubrepo.repositories.HomeRepository
 import com.demo.trendinggithubrepo.ui.home.GitHubTrendingRepoViewModelFactory
-import com.demo.trendinggithubrepo.ui.splash.SplashActivity
 import com.facebook.stetho.Stetho
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
