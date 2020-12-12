@@ -26,6 +26,7 @@ class GitHubTrendingRepoActivity : AppCompatActivity(), KodeinAware, GitHubRepoL
     lateinit var viewModel: GitHubTrendingRepoViewModel
     var repoAdapter: GitHubRepoAdapter? = null
     lateinit var repoObserver: Observer<List<TrendingRepositories>>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_trending_github_repo)

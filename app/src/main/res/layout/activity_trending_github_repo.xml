@@ -85,6 +85,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
+                        android:backgroundTint="@android:color/darker_gray"
                         android:visibility="@{viewModel.searchFieldVisibility}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivArrowIcon" />
