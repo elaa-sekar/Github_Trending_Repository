@@ -116,6 +116,65 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rlNoInternet"
+            android:visibility="@{viewModel.loaderLayoutVisibility}"
+            android:background="@color/solitude"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_internet"
+                    android:id="@+id/tvNoInternet"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.noInternetVisibility}"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toTopOf="@id/btnTryAgain"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"/>
+                
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:id="@+id/btnTryAgain"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/try_again"
+                    android:textColor="@color/denim"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.noInternetVisibility}"
+                    android:onClick="@{viewModel::onTryAgainClicked}"
+                    app:layout_constraintTop_toBottomOf="@id/tvNoInternet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ProgressBar
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:elevation="@dimen/_4sdp"
+                    android:visibility="@{viewModel.loaderVisibility}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:backgroundTint="@color/navy_blue"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

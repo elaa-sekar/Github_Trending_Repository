@@ -48,9 +48,7 @@ class GitHubTrendingRepo : Application(), KodeinAware {
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityPaused(activity: Activity) {
-                if (activity.javaClass.simpleName != SplashActivity::class.simpleName) {
-                    activity.unregisterReceiver(networkReceiver)
-                }
+                activity.unregisterReceiver(networkReceiver)
             }
 
             override fun onActivityStarted(activity: Activity) {
@@ -72,16 +70,12 @@ class GitHubTrendingRepo : Application(), KodeinAware {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 //Timber.d("Class name ${activity.javaClass.simpleName} ${SplashScreen::class.simpleName}")
 
-                if (activity.javaClass.simpleName != SplashActivity::class.simpleName) {
-                    networkReceiver = NetworkReceiver()
-                }
+                networkReceiver = NetworkReceiver()
 
             }
 
             override fun onActivityResumed(activity: Activity) {
-                if (activity.javaClass.simpleName != SplashActivity::class.simpleName) {
-                    activity.registerReceiver(networkReceiver, intentFilterNetwork)
-                }
+                activity.registerReceiver(networkReceiver, intentFilterNetwork)
             }
 
         })

@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.demo.trendinggithubrepo.data.api_models.GitHubRepo
 import com.demo.trendinggithubrepo.data.database.TrendingRepositories
 import com.demo.trendinggithubrepo.repositories.HomeRepository
 import com.demo.trendinggithubrepo.utils.toTrendingRepositories
@@ -20,8 +19,11 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     var listener: GitHubRepoListener? = null
     var searchFieldVisibility = ObservableField(View.GONE)
     var titleSearchIconVisibility = ObservableField(View.VISIBLE)
+    var noInternetVisibility = ObservableField(View.GONE)
+    var loaderLayoutVisibility = ObservableField(View.GONE)
+    var loaderVisibility = ObservableField(View.GONE)
 
-    lateinit var repoLiveData: LiveData<List<TrendingRepositories>>
+    var repoLiveData: LiveData<List<TrendingRepositories>>
 
     init {
         repoLiveData = repository.getAllRepos()
@@ -31,13 +33,25 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
     private val coroutineExceptionHandler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { _, throwable ->
             Timber.d("Coroutine Exception : $throwable")
-//            Coroutines.main { showMessage(throwable.toString()) }
+            viewModelScope.launch(Dispatchers.Main) {
+                listener?.stopLoader()
+                if(throwable.toString().contains("internet", true)){
+                    showLoaderLayout()
+                }
+            }
         }
 
     //On click methods
     fun onSearchIconClicked(view: View) {
         searchFieldVisibility.set(View.VISIBLE)
         titleSearchIconVisibility.set(View.GONE)
+    }
+
+    fun onTryAgainClicked(view: View){
+        loaderVisibility.set(View.VISIBLE)
+        loaderVisibility.set(View.VISIBLE)
+        noInternetVisibility.set(View.GONE)
+        getTrendingRepoList()
     }
 
     fun onBackArrowClicked(view: View) {
@@ -52,7 +66,7 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
 
     // API/Network call
     fun getTrendingRepoList() {
-
+        loaderVisibility.set(View.VISIBLE)
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val repoList = repository.getRepositoriesList()
             repository.deleteAllRepos()
@@ -63,6 +77,7 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
                     listener?.showMessage("No repositories found")
                 }
                 listener?.stopLoader()
+                loaderVisibility.set(View.GONE)
             }
         }
     }
@@ -76,5 +91,16 @@ class GitHubTrendingRepoViewModel(private val repository: HomeRepository) : View
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             repoLiveData = repository.getSearchedRepo(searchKey)
         }
+    }
+
+    fun showLoaderLayout() {
+        loaderLayoutVisibility.set(View.VISIBLE)
+        loaderVisibility.set(View.GONE)
+        noInternetVisibility.set(View.VISIBLE)
+    }
+
+    fun hideLoaderLayout(){
+        loaderLayoutVisibility.set(View.GONE)
+        noInternetVisibility.set(View.GONE)
     }
 }
